@@ -1,0 +1,166 @@
+---
+import * as dotenv from "dotenv"
+dotenv.config()
+
+const minsaka = await fetch(process.env.PUBLIC_MINSAKA_COMMENTS_URL);
+const lp = await fetch(process.env.PUBLIC_LP_COMMENTS_URL);
+
+const dataMinsaka = await minsaka.json();
+const dataMinsakaFiltered = dataMinsaka.filter( function( item ) {
+  return (item[0] != "" && item[1] != "" && item[2] != "") ;
+})
+
+const dataLp = await lp.json();
+const dataLpFiltered = dataLp.filter( function( item ) {
+  return (item[0] != "" && item[1] != "" && item[2] != "") ;
+})
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<div class="card__container">
+			{dataMinsakaFiltered.map((item)=>(
+				<div class="card__prior">
+					<p class="card__prior__body">{item[2]}</p>
+					<p class="card__prior__name">{item[1]}</p>
+					<a href="https://www.sakaseru.jp/mina/event/2d1c6fd5139fd291d1d4fb1714f87c5f" target="_blank" rel="noopener noreferrer">
+						<div class="card__prior__badge">
+							<img src="/minsaka-logo.png" class="card__prior__badge__logo">
+							<span>企画参加者</span>
+						</div>
+					</a>
+				</div>
+			))}
+		</div>
+		<div class="card__container">
+		{dataLpFiltered.map((item)=>(
+			<div class="card">
+				<p class="card__body">{item[2]}</p>
+				<p class="card__name">{item[1]}</p>
+			</div>
+		))}
+		</div>
+	</body>
+</html>
+
+<style lang="scss">
+	*,html,body {
+		margin: 0;
+		padding: 0;
+		font-family: 'Noto Sans JP', sans-serif;
+	}
+	.card__container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
+		height: 100%;
+		justify-content: center;
+
+		@media screen and (max-width: 540px) {
+			margin-bottom: 80px;
+		}
+	}
+	.card {
+		display: flex;
+		flex-direction: column;
+		width: 200px;
+		padding: 16px 32px 8px 32px;
+		border: 2px solid #000;
+		box-shadow: 4px 4px 0px rgb(0 0 0 / 20%);
+		background-color: #ffffff;
+		border-radius: 16px;
+		margin: 8px;
+		height: fit-content;
+
+		@media screen and (max-width: 540px) {
+			padding: 16px 16px 8px 16px;
+			margin: 8px 16px;
+			width: 100%;
+		}
+
+		p {
+			font-size: 14px;
+			font-weight: 500;
+			margin: 0;
+		}
+
+		&__body {
+			color: #333333;
+			margin-bottom: 8px!important;
+		}
+		&__name {
+			color: #777777;
+		}
+
+		&__prior {
+			color: #333;
+			font-size: 18px;
+			display: flex;
+			flex-direction: column;
+			width: 300px;
+			height: fit-content;
+			padding: 20px;
+			border: 3px solid #333;
+			box-shadow: 4px 4px 0px rgb(0 0 0 / 20%);
+			background-color: #ffffff;
+			border-radius: 16px;
+			margin: 16px;
+
+			@media screen and (max-width: 540px) {
+				width: 100%;
+			}
+
+			p {
+				font-size: 18px;
+				margin: 0;
+				font-weight: bold;
+				letter-spacing: 0.02em;
+			}
+			&__body {
+				color: #333333;
+				margin-bottom: 10px!important;
+			}
+			&__name {
+				color: #777777;
+				margin-bottom: 6px!important;
+			}
+
+			a {
+				text-decoration: none;
+				color: initial;
+			}
+			&__badge {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: fit-content;
+				background: #efefef;
+				padding: 4px 12px;
+				border-radius: 50px;
+			
+				&__logo {
+					width: auto;
+					height: 16px;
+					margin-right: 8px;
+				}
+				span {
+					font-size: 14px;
+					color: #585858;
+				}
+			}
+		}
+	}
+
+</style>
