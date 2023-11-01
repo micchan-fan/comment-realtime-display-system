@@ -20,6 +20,13 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v3
+      - name: Create dot env file
+      - shell: bash
+        run: |
+          cat > .env <<EOF
+            PUBLIC_MINSAKA_COMMENTS_URL=${{ variables.PUBLIC_MINSAKA_COMMENTS_URL }}
+            PUBLIC_LP_COMMENTS_URL=${{ variables.PUBLIC_LP_COMMENTS_URL }}
+            EOF
       - name: Install, build, and upload your site
         uses: withastro/action@v1
         # with:
