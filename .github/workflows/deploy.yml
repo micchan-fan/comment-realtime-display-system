@@ -21,8 +21,8 @@ jobs:
       - name: Create dot env file
         run: |
           cat > .env <<EOF
-            PUBLIC_MINSAKA_COMMENTS_URL=${{ vars.PUBLIC_MINSAKA_COMMENTS_URL }}
-            PUBLIC_LP_COMMENTS_URL=${{ vars.PUBLIC_LP_COMMENTS_URL }}
+            PUBLIC_MINSAKA_COMMENTS_URL=${{ secrets.PUBLIC_MINSAKA_COMMENTS_URL }}
+            PUBLIC_LP_COMMENTS_URL=${{ secrets.PUBLIC_LP_COMMENTS_URL }}
             EOF
       - name: Install, build, and upload your site
         uses: withastro/action@v1
